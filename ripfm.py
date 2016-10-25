@@ -32,16 +32,30 @@ class Wilt:
             return None
         return json.loads(r.text)['token']
 
+    def check_last(self, song):
+        song = song.decode()
+        try:
+            r = get('{}?active={}'.format(Scrobble, self.user))
+            resp = json.loads(r.text)[0]
+            if resp['song_name'].lower() == song.lower():
+                return True
+            else:
+                return False
+        except Exception as e:
+            print('Exception, is the backend down? {}'.format(e))
+
     def scrobble(self, scrobble):
         if scrobble['song'] != self.last_played:
-            r = post(Scrobble, data=scrobble, headers=self.header)
-            self.last_played = scrobble['song']
+            if not self.check_last(scrobble['song']):
+                r = post(Scrobble, data=scrobble, headers=self.header)
+                self.last_played = scrobble['song']
+            else:
+                print('This song was the last song scrobbled.')
         else:
             return None
 
 # Instantiating our Wilt class
 Wilt = Wilt()
-
 
 def recent_url(user):
     return ('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks'
@@ -62,3 +76,6 @@ if __name__ == '__main__':
     while 1:
         rip()
         sleep(15)
+
+
+
