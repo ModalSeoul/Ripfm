@@ -3,8 +3,8 @@ import json
 from time import sleep
 
 # Don't touch these
-Auth = 'https://modal.moe/api/api-token-auth/'
-Scrobble = 'https://modal.moe/api/scrobbles/'
+Auth = 'https://wilt.fm/api/api-token-auth/'
+Scrobble = 'https://wilt.fm/api/scrobbles/'
 Key = '7d25207fefda375df7db633eae91ef88'
 Secret = 'be6ad97265f13b44efba96859d75c01d'
 
